@@ -1,0 +1,42 @@
+#!/bin/bash
+
+process="$1"
+
+count="$2"
+
+if [[ -z "$process" || -z "$count" ]]; then
+    echo -e "\e[31mUsage: $0 <process_name> <count>\e[0m"
+    exit 1
+fi
+
+if ! [[ "$count" =~ ^[0-9]+$ ]]; then
+    echo -e "\e[31mError: count must be a positive integer\e[0m"
+    exit 1
+fi
+
+
+counter=0
+
+ucounter=0
+
+dcounter=0
+
+while (( counter < count )); do
+	if pgrep -x "$process" > /dev/null 2>&1; then
+		(( ucounter++ ))
+		echo -e "\e[32mUP $ucounter TIMES :)\e[0m"
+	else
+		(( dcounter++  ))
+		echo -e "\e[31mDOWN $dcounter TIMES :(\e[0m"
+	fi
+	(( counter++  ))
+	sleep 2
+done
+
+echo -e "\e[36m###################\e[0m"
+echo -e "\e[36m##### SUMMARY #####\e[0m"
+echo -e "\e[36m###################\e[0m"
+echo ""
+echo -e "\e[32mUP TIMES : $ucounter\e[0m"
+echo -e "\e[36m-------------------\e[0m"
+echo -e "\e[31mDOWN TIMES : $dcounter\e[0m"

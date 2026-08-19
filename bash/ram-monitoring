@@ -1,0 +1,12 @@
+#!/bin/bash/
+
+
+echo -e "Hello!\nthis is a script for you to see your ram status :)"
+free -h
+usage=$(free -m | awk '/Mem:/ {print $3}')
+if [ $usage -gt 3000  ]; then
+	echo -e "\033[31mYour ram usage is high!\033[0m"
+else
+	echo -e "\033[32mYour ram usage is OKAY :)\033[0m"
+fi
+echo "bye!"
